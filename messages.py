@@ -1,4 +1,4 @@
-from typing import Optional, Union, Any, NamedTuple, TypeVar
+from typing import Optional, Union, Any, NamedTuple, TypeVar, Protocol, TYPE_CHECKING
 from geolib import geohash as gh  # type: ignore
 from collections.abc import Sequence, Iterator, Mapping, Iterable  # type: ignore
 import sys
@@ -8,6 +8,7 @@ from random import shuffle
 from collections import Counter
 from decimal import Decimal
 from fractions import Fraction
+import pytest
 
 PRECISION = 9
 RE_WORD = re.compile(r'\w+')
@@ -114,4 +115,31 @@ NumberT = TypeError('NumberT', float, Decimal, Fraction)
 
 
 def mode_1(data: Iterable[NumberT]) -> NumberT:
+    pass
+
+
+def top(series: Iterable[T], length: int) -> list[T]:
+    ordered = sorted(series, reverse=True)
+    return ordered[:length]
+
+
+class SupportsLessThan(Protocol):
+    def __lt__(self, other: Any) -> bool: ...
+
+
+LT = TypeVar('LT', bound=SupportsLessThan)
+
+
+def top_2(series: Iterable[LT], length: int) -> list[LT]:
+    ordered = sorted(series, reverse=True)
+    return ordered[:length]
+
+
+def tag(
+    name: str,
+    /,
+    *content: str,
+    class_: Optional[str] = None,
+    **attrs: str,
+) -> str:
     pass
