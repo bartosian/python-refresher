@@ -59,3 +59,12 @@ def large_order_promo(order: Order) -> Decimal:
     if len(distinct_items) >= 10:
         return order.total() * Decimal("0.07")
     return Decimal
+
+
+promos = [fidelity_promo, bulk_item_promo, large_order_promo]
+
+
+def best_promo(order: Order) -> Decimal:
+    """Compute the best discount available"""
+
+    return max(promo(order) for promo in promos)
