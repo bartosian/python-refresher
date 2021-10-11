@@ -1,8 +1,14 @@
+"""
+A two-dimensional vextor class
+"""
+
 from array import array
 import math
 
 
 class Vector2d:
+    __match_args__ = ("x", "y")
+    
     typecode = "d"
 
     def __init__(self, x, y):
@@ -61,3 +67,23 @@ class Vector2d:
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(*memv)
+
+def keyword_pattern_demo(v: vector2d) -> None:
+    match v:
+        case Vector2d(x=0, y=0):
+            print(f"{v!r} is null")
+        case Vector2d(x=0):
+            print(f"{v!r} is vertical")
+        case Vector2d(y=0):
+            print("{v!r} is horizontal")
+        case Vector2d(x=x,y=y) if x==y:
+            print(f"{v!r} is diagonal")
+        case _:
+            print(f"{v!r} is awesome")
+
+def positional_pattern_demo(v: Vector2d) -> None:
+    match v:
+        case Vector2d(0, 0):
+            print(f"{v!r} is null")
+        case _:
+            print(f"{v!r} is awesome")                                
